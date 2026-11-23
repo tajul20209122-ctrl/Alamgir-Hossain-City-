@@ -22,7 +22,7 @@ main{max-width:1050px;margin:18px auto;padding:0 14px}.nav{display:flex;gap:8px;
 #productManageShelf::-webkit-scrollbar{height:7px}
 #productManageShelf::-webkit-scrollbar-thumb{background:#9ab9a4;border-radius:10px}
 .due-card{border:1px solid var(--line);border-radius:13px;padding:12px;margin:10px 0;background:#fbfdfb}
-.due-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:10px 0}
+.due-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:10px 0}.due-summary{background:#f2f8f3;border:1px solid var(--line);border-radius:12px;padding:10px;margin:12px 0}.due-summary .due-metric{background:#fff}
 .due-metric{background:#eef7f0;border-radius:9px;padding:8px;text-align:center}
 .due-metric b{display:block;color:var(--g);font-size:15px}
 .due-form{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
@@ -64,8 +64,7 @@ main{max-width:1050px;margin:18px auto;padding:0 14px}.nav{display:flex;gap:8px;
 <div class="panel"><h2>➕ সবজি ও মুদি মাল যোগ / দাম আপডেট</h2><p class="muted">প্রাথমিক তালিকায় ১০০টির বেশি পণ্য আছে। ছবির জায়গায় পণ্যের পরিচিত আইকন দেখাবে; চাইলে নিজের আসল ছবি আপলোড করতে পারবেন। দামগুলো আনুমানিক, দোকানদার পরিবর্তন করতে পারবেন।</p><button class="btn secondary" style="width:100%;margin-bottom:12px" onclick="seedStarterCatalog()">📥 সব প্রাথমিক পণ্য অনলাইনে যোগ করুন</button><div class="fields"><div><label>সবজির নাম</label><input id="pName" placeholder="যেমন টমেটো"></div><div><label>বিভাগ</label><select id="pCat"><option>সবজি</option><option>শাক</option><option>ফল</option><option>মুদি মাল</option></select></div><div><label>দাম (টাকা)</label><input id="pPrice" type="number" min="0"></div><div><label>একক</label><select id="pUnit"><option>কেজি</option><option>গ্রাম</option><option>লিটার</option><option>পিস</option><option>প্যাকেট</option><option>বোতল</option><option>মোটা</option></select></div><div class="full"><label>ছবি তুলুন / নির্বাচন করুন</label><input id="pImage" type="file" accept="image/*" capture="environment"></div></div><button class="btn primary" style="margin-top:10px" onclick="saveProduct()">পণ্য সংরক্ষণ</button><div id="productManage"></div></div>
 <div class="panel"><h2>🧾 নতুন অর্ডার তালিকা</h2><p class="muted">ক্রেতা কী কী অর্ডার করেছে দেখুন। পাঠানোর সময় ডেলিভারি তালিকায় পাঠান।</p><div id="newOrders"></div></div>
 <div class="panel"><h2>🚚 ডেলিভারি তালিকা</h2><div id="deliveryOrders"></div></div>
-<div class="panel"><h2>📒 বাকি হিসাবের আলাদা তালিকা</h2><p class="muted">মোবাইল নম্বর দিয়ে খুঁজুন। বাকি অর্ডার, জমার তারিখ, মোট জমা ও অবশিষ্ট টাকা দেখা যাবে।</p><div class="row" style="margin:10px 0"><input id="duePhoneSearch" inputmode="tel" placeholder="ক্রেতার মোবাইল নম্বর লিখুন" oninput="filterDueLedgerView()" style="flex:1"><button class="btn secondary" onclick="clearDuePhoneSearch()">সব দেখুন</button></div><div id="dueOrders"></div></div>
-<div class="panel"><h2>⚙️ বাকি হিসাব চালু করার একবারের সেটআপ</h2><p class="muted">Supabase → SQL Editor-এ নিচের SQL একবার Run করুন। এতে বাকি জমার আলাদা অনলাইন টেবিল তৈরি হবে।</p><textarea id="dueSql" rows="12" readonly></textarea><button class="btn secondary" style="margin-top:8px" onclick="copyDueSql()">SQL কপি করুন</button></div>
+<div class="panel"><h2>📒 বাকি হিসাবের আলাদা তালিকা</h2><p class="muted">মোবাইল নম্বর দিয়ে খুঁজুন। বাকি অর্ডার, জমার তারিখ, মোট জমা ও অবশিষ্ট টাকা দেখা যাবে।</p><div id="dueSummary" class="due-summary"><div class="due-metrics"><div class="due-metric"><span class="small">মোট বাকি</span><b>৳০</b></div><div class="due-metric"><span class="small">মোট জমা</span><b>৳০</b></div><div class="due-metric"><span class="small">অবশিষ্ট</span><b>৳০</b></div></div></div><div class="row" style="margin:10px 0"><input id="duePhoneSearch" inputmode="tel" placeholder="ক্রেতার মোবাইল নম্বর লিখুন" oninput="filterDueLedgerView()" style="flex:1"><button class="btn secondary" onclick="clearDuePhoneSearch()">সব দেখুন</button></div><div id="dueOrders"></div></div>
 <div class="panel"><h2>🔐 অ্যাকাউন্ট নিরাপত্তা</h2><p class="muted">দোকানদারের প্রবেশ Supabase ইমেইল ও পাসওয়ার্ড দিয়ে নিয়ন্ত্রিত হয়। পাসওয়ার্ড কাউকে দেবেন না।</p></div>
 <div class="panel"><h2>💾 ডেটা ব্যাকআপ</h2><button class="btn secondary" onclick="backup()">ব্যাকআপ ডাউনলোড</button> <label class="btn secondary" style="display:inline-block">ব্যাকআপ ফেরত আনুন<input type="file" accept="application/json" style="display:none" onchange="restore(event)"></label></div>
 </div></section>
@@ -151,7 +150,6 @@ async function moveDelivery(id){const {error}=await sbClient.from('orders').upda
 async function markSent(id){const {error}=await sbClient.from('orders').update({status:'ডেলিভারি পাঠানো হয়েছে'}).eq('id',id);if(error)return toast('আপডেট হয়নি: '+error.message);await renderAdmin();toast('পণ্য পাঠানো হয়েছে')}
 
 function localDateValue(){const d=new Date();const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${day}`}
-function copyDueSql(){const el=$('dueSql');el.focus();el.select();try{document.execCommand('copy');toast('বাকি হিসাবের SQL কপি হয়েছে')}catch(e){toast('SQL বক্স থেকে কপি করুন')}}
 async function addDuePayment(orderId){
   if(!logged)return toast('আগে দোকানদার হিসেবে লগইন করুন');
   const amountEl=$('dueAmount_'+orderId),dateEl=$('dueDate_'+orderId),noteEl=$('dueNote_'+orderId);
@@ -184,16 +182,18 @@ function filterDueLedgerView(){
 function clearDuePhoneSearch(){ $('duePhoneSearch').value=''; filterDueLedgerView(); }
 async function renderDueLedger(orders){
   const dueOrders=orders.filter(o=>o.payment==='বাকি চাই');
-  if(!dueOrders.length){$('dueOrders').innerHTML='<p class="muted">এখনো কোনো বাকি অর্ডার নেই।</p>';db.duePayments=[];return}
+  if(!dueOrders.length){$('dueSummary').innerHTML='<div class="due-metrics"><div class="due-metric"><span class="small">মোট বাকি</span><b>৳০</b></div><div class="due-metric"><span class="small">মোট জমা</span><b>৳০</b></div><div class="due-metric"><span class="small">অবশিষ্ট</span><b>৳০</b></div></div>'; $('dueOrders').innerHTML='<p class="muted">এখনো কোনো বাকি অর্ডার নেই।</p>';db.duePayments=[];return}
   const ids=dueOrders.map(o=>o.id);
   const {data:payments,error}=await sbClient.from('due_payments').select('id,order_id,amount,payment_date,note,created_at').in('order_id',ids).order('payment_date',{ascending:false});
   if(error){
     console.error(error);
-    $('dueOrders').innerHTML='<p class="muted">বাকি জমার হিসাব চালু হয়নি। নিচের “একবারের সেটআপ” অংশের SQL Supabase SQL Editor-এ Run করুন। তারপর আবার লগইন/রিফ্রেশ করুন।</p>';
+    $('dueOrders').innerHTML='<p class="muted">বাকি জমার তথ্য লোড করা যাচ্ছে না। ইন্টারনেট ও Supabase সংযোগ পরীক্ষা করে আবার রিফ্রেশ করুন। প্রয়োজনে ত্রুটি: '+esc(error.message)+'</p>';
     db.duePayments=[];
     return;
   }
   db.duePayments=payments||[];
+  const summary=dueOrders.reduce((acc,o)=>{const paid=db.duePayments.filter(p=>String(p.order_id)===String(o.id)).reduce((sum,p)=>sum+Number(p.amount||0),0);acc.total+=Number(o.total||0);acc.paid+=paid;acc.remaining+=Math.max(0,Number(o.total||0)-paid);return acc},{total:0,paid:0,remaining:0});
+  $('dueSummary').innerHTML='<div class="due-metrics"><div class="due-metric"><span class="small">মোট বাকি</span><b>'+taka(summary.total)+'</b></div><div class="due-metric"><span class="small">মোট জমা</span><b>'+taka(summary.paid)+'</b></div><div class="due-metric"><span class="small">অবশিষ্ট</span><b>'+taka(summary.remaining)+'</b></div></div>';
   const outstanding=dueOrders.map(o=>{
     const history=db.duePayments.filter(p=>String(p.order_id)===String(o.id));
     const deposited=history.reduce((sum,p)=>sum+Number(p.amount||0),0);
@@ -239,7 +239,7 @@ async function markSent(id){
 async function paid(id){return toast('এখন বাকি তালিকার জমা ঘর ব্যবহার করে টাকা জমা দিন')}
 function backup(){const a=document.createElement('a'),u=URL.createObjectURL(new Blob([JSON.stringify(db)],{type:'application/json'}));a.href=u;a.download='fresh-vegetable-backup.json';a.click();URL.revokeObjectURL(u)}
 function restore(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.products||!d.orders)throw 0;db=d;save();renderHeader();renderProducts();toast('লোকাল ব্যাকআপ ফেরত আনা হয়েছে')}catch{toast('ব্যাকআপ ফাইল সঠিক নয়')}};r.readAsText(f)}
-$('dueSql').value='-- আলমগীর হোসেন সিটি ফ্রেশ শাকসবজি: বাকি জমার হিসাব\ncreate table if not exists public.due_payments (\n  id bigint generated by default as identity primary key,\n  order_id uuid not null references public.orders(id) on delete cascade,\n  amount numeric(12,2) not null check (amount > 0),\n  payment_date date not null default current_date,\n  note text,\n  created_at timestamptz not null default now()\n);\n\nalter table public.due_payments enable row level security;\n\ndrop policy if exists "Admins can read due payments" on public.due_payments;\ncreate policy "Admins can read due payments"\non public.due_payments for select to authenticated\nusing (exists (\n  select 1 from public.admin_users au where au.user_id = auth.uid()\n));\n\ndrop policy if exists "Admins can add due payments" on public.due_payments;\ncreate policy "Admins can add due payments"\non public.due_payments for insert to authenticated\nwith check (exists (\n  select 1 from public.admin_users au where au.user_id = auth.uid()\n));\n\ngrant select, insert on public.due_payments to authenticated;\ngrant usage, select on sequence public.due_payments_id_seq to authenticated;\n';
+
 $('today').textContent=new Date().toLocaleDateString('bn-BD',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
 renderHeader();renderCart();renderProducts();
 loadCloudProducts();loadShopSettings();
